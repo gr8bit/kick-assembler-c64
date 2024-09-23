@@ -174,7 +174,6 @@
 		// target is too far, invert branch opcode condition, cross the jmp (3 bytes)
 		.byte branchOpcode ^ $20, 3
 		jmp target
-	!:
 	} else {
 		// use ordinary branch
 		.byte branchOpcode, diff
