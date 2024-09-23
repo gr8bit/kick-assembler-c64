@@ -129,7 +129,7 @@
 	.return (>addr1) == (>addr2)
 }
 .macro _samePageBranch(target, branchOpcode) {
-	.errorif !_samePage(target.getValue(), *), "opcode $".toHexString(branchOpcode)+" branch crosses page boundary"
+	.errorif !_samePage(target.getValue(), * + 2), "opcode $".toHexString(branchOpcode)+" branch crosses page boundary"
 	.const diff = target - (* + 2)
 	.errorif diff < -128 || diff > 127, "opcode $".toHexString(branchOpcode)+" branch is too far"
 	
