@@ -21,6 +21,24 @@
  */
 .const ZP_UsedAddresses = List()
 
+// reserves the given number of single bytes somewhere in the zeropage, returning a list of addresses
+.function ZP_allocByteList(amount) {
+	.const bytes = List(amount)
+	.for (var i = 0; i < amount; i++) {
+		.eval bytes.add(ZP_allocByte())
+	}
+	.return bytes
+}
+
+// reserves the given number of single words somewhere in the zeropage, returning a list of addresses
+.function ZP_allocWordList(amount) {
+	.const words = List(amount)
+	.for (var i = 0; i < amount; i++) {
+		.eval words.add(ZP_allocWord())
+	}
+	.return words
+}
+
 // reserves one word (two consecutive zeropage addresses) anywhere in the zeropage
 .function ZP_allocWord() {
 	.return ZP_allocWords(1, 0)
