@@ -23,20 +23,45 @@
 
 // reserves the given number of single bytes somewhere in the zeropage, returning a list of addresses
 .function ZP_allocByteList(amount) {
-	.const bytes = List(amount)
+	.return ZP_allocBytesList(1, amount)
+}
+// reserves the given number of single bytes starting at given address in the zeropage, returning a list of addresses
+.function ZP_allocByteList(amount, startAddress) {
+	.return ZP_allocBytesList(1, amount, startAddress)
+}
+// reserves the given number of given consecutive bytes somewhere in the zeropage, returning a list of addresses
+.function ZP_allocBytesList(bytes, amount) {
+	.return ZP_allocBytesList(bytes, amount, 0)
+}
+// reserves the given number of given consecutive bytes starting at given address in the zeropage, returning a list of
+// addresses
+.function ZP_allocBytesList(bytes, amount, startAddress) {
+	.const bytesList = List(amount)
 	.for (var i = 0; i < amount; i++) {
-		.eval bytes.add(ZP_allocByte())
+		.eval bytesList.set(i, ZP_allocBytes(bytes, startAddress))
 	}
-	.return bytes
+	.return bytesList
 }
 
 // reserves the given number of single words somewhere in the zeropage, returning a list of addresses
 .function ZP_allocWordList(amount) {
-	.const words = List(amount)
+	.return ZP_allocWordsList(1, amount)
+}
+// reserves the given number of single words starting at the given address in the zeropage, returning a list of addresses
+.function ZP_allocWordList(amount, startAddress) {
+	.return ZP_allocWordsList(1, amount, startAddress)
+}
+// reserves the given number of consecutive words somewhere in the zeropage, returning a list of addresses
+.function ZP_allocWordsList(words, amount) {
+	.return ZP_allocWordsList(words, amount, 0)
+}
+// reserves the given number of consecutive words starting at given address in the zeropage, returning a list of addresses
+.function ZP_allocWordsList(words, amount, startAddress) {
+	.const wordsList = List(amount)
 	.for (var i = 0; i < amount; i++) {
-		.eval words.add(ZP_allocWord())
+		.eval wordsList.set(i, ZP_allocWords(words, startAddress))
 	}
-	.return words
+	.return wordsList
 }
 
 // reserves one word (two consecutive zeropage addresses) anywhere in the zeropage
