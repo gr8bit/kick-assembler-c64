@@ -28,12 +28,8 @@
  * value is not in list.
  */
 .function List_indexOf(list, value) {
-	.for (var i = 0; i < list.size(); i++) {
-		.if (list.get(i) == value) {
-			.return i		
-		}
-	}
-	.return -1
+	.const firstIndexList = List_indexesOf(list, value, 1)
+	.return firstIndexList.size() == 0 ? -1 : firstIndexList.get(0)
 }
 
 /*
@@ -41,10 +37,21 @@
  * which is empty if value is not in the list.
  */
 .function List_indexesOf(list, value) {
+	.return List_indexesOf(list, value, null)
+}
+
+/*
+ * Finds a maximum of "limit" indexes of given value in list, returning a
+ * List of indexes which is empty if value is not in the list.
+ * If limit is null or < 0, all entries will be returned.
+ */
+.function List_indexesOf(list, value, limit) {
 	.const result = List()
+	.if (limit == 0) .return result
 	.for (var i = 0; i < list.size(); i++) {
 		.if (list.get(i) == value) {
-			.eval result.add(i)		
+			.eval result.add(i)
+			.if (result.size() == limit) .return result
 		}
 	}
 	.return result
